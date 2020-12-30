@@ -3,7 +3,6 @@ package run.halo.app.service.impl;
 import org.springframework.stereotype.Service;
 import run.halo.app.model.entity.PostResource;
 import run.halo.app.repository.PostResourceRepository;
-import run.halo.app.repository.base.BaseRepository;
 import run.halo.app.service.PostResourceService;
 import run.halo.app.service.base.AbstractCrudService;
 

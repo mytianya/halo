@@ -107,7 +107,7 @@ public class PostController {
             @RequestParam(value = "autoSave", required = false, defaultValue = "false") Boolean autoSave) {
         // Convert to
         Post post = postParam.convertTo();
-        return postService.createBy(post, postParam.getTagIds(), postParam.getCategoryIds(), postParam.getPostMetas(), autoSave);
+        return postService.createBy(post, postParam.getTagIds(), postParam.getCategoryIds(), postParam.getPostMetas(),postParam.getPostResources(), autoSave);
     }
 
     @PutMapping("{postId:\\d+}")
@@ -119,7 +119,7 @@ public class PostController {
         Post postToUpdate = postService.getById(postId);
 
         postParam.update(postToUpdate);
-        return postService.updateBy(postToUpdate, postParam.getTagIds(), postParam.getCategoryIds(), postParam.getPostMetas(), autoSave);
+        return postService.updateBy(postToUpdate, postParam.getTagIds(), postParam.getCategoryIds(), postParam.getPostMetas(),postParam.getPostResources(), autoSave);
     }
 
     @PutMapping("{postId:\\d+}/status/{status}")

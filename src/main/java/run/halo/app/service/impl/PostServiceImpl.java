@@ -126,8 +126,8 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
     @Override
     @Transactional
     public PostDetailVO createBy(Post postToCreate, Set<Integer> tagIds, Set<Integer> categoryIds,
-            Set<PostMeta> metas, boolean autoSave) {
-        PostDetailVO createdPost = createOrUpdate(postToCreate, tagIds, categoryIds, metas);
+            Set<PostMeta> metas, Set<PostResource> resources, boolean autoSave) {
+        PostDetailVO createdPost = createOrUpdate(postToCreate, tagIds, categoryIds, metas,resources);
         if (!autoSave) {
             // Log the creation
             LogEvent logEvent = new LogEvent(this, createdPost.getId().toString(),
@@ -137,10 +137,11 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
         return createdPost;
     }
 
+
     @Override
     public PostDetailVO createBy(Post postToCreate, Set<Integer> tagIds, Set<Integer> categoryIds,
             boolean autoSave) {
-        PostDetailVO createdPost = createOrUpdate(postToCreate, tagIds, categoryIds, null);
+        PostDetailVO createdPost = createOrUpdate(postToCreate, tagIds, categoryIds, null,null);
         if (!autoSave) {
             // Log the creation
             LogEvent logEvent = new LogEvent(this, createdPost.getId().toString(),
@@ -153,10 +154,10 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
     @Override
     @Transactional
     public PostDetailVO updateBy(Post postToUpdate, Set<Integer> tagIds, Set<Integer> categoryIds,
-            Set<PostMeta> metas, boolean autoSave) {
+            Set<PostMeta> metas,Set<PostResource> resources, boolean autoSave) {
         // Set edit time
         postToUpdate.setEditTime(DateUtils.now());
-        PostDetailVO updatedPost = createOrUpdate(postToUpdate, tagIds, categoryIds, metas);
+        PostDetailVO updatedPost = createOrUpdate(postToUpdate, tagIds, categoryIds, metas,resources);
         if (!autoSave) {
             // Log the creation
             LogEvent logEvent = new LogEvent(this, updatedPost.getId().toString(),
@@ -768,7 +769,7 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
     }
 
     private PostDetailVO createOrUpdate(@NonNull Post post, Set<Integer> tagIds,
-            Set<Integer> categoryIds, Set<PostMeta> metas) {
+            Set<Integer> categoryIds, Set<PostMeta> metas,Set<PostResource> resources) {
         Assert.notNull(post, "Post param must not be null");
 
         // Create or update post
