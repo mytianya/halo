@@ -57,5 +57,5 @@ public class PostResource extends BaseEntity{
      * 状态
      */
     @Column(name="status")
-    private String status;
+    private Integer status;
 }

@@ -79,6 +79,8 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
 
     private final OptionService optionService;
 
+    private final PostResourceService postResourceService;
+
     public PostServiceImpl(BasePostRepository<Post> basePostRepository,
             OptionService optionService,
             PostRepository postRepository,
@@ -88,7 +90,7 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
             PostCategoryService postCategoryService,
             PostCommentService postCommentService,
             ApplicationEventPublisher eventPublisher,
-            PostMetaService postMetaService) {
+            PostMetaService postMetaService, PostResourceService postResourceService) {
         super(basePostRepository, optionService);
         this.postRepository = postRepository;
         this.tagService = tagService;
@@ -99,6 +101,7 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
         this.eventPublisher = eventPublisher;
         this.postMetaService = postMetaService;
         this.optionService = optionService;
+        this.postResourceService=postResourceService;
     }
 
     @Override
@@ -481,8 +484,11 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
         List<Category> categories = postCategoryService.listCategoriesBy(post.getId());
         // List metas
         List<PostMeta> metas = postMetaService.listBy(post.getId());
+
+        //List Resource
+        List<PostResource> resources=postResourceService.listBy(post.getId());
         // Convert to detail vo
-        return convertTo(post, tags, categories, metas);
+        return convertTo(post, tags, categories, metas,resources);
     }
 
     @Override
@@ -690,7 +696,7 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
      */
     @NonNull
     private PostDetailVO convertTo(@NonNull Post post, @Nullable List<Tag> tags,
-            @Nullable List<Category> categories, List<PostMeta> postMetaList) {
+            @Nullable List<Category> categories, List<PostMeta> postMetaList,List<PostResource> resources) {
         Assert.notNull(post, "Post must not be null");
 
         // Convert to base detail vo
@@ -802,8 +808,10 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
                 .createOrUpdateByPostId(post.getId(), metas);
         log.debug("Created post metas: [{}]", postMetaList);
 
+        //Create post resources
+        List<PostResource> postResourceList=postResourceService.createOrUpdateByPostId(post.getId(),resources);
         // Convert to post detail vo
-        return convertTo(post, tags, categories, postMetaList);
+        return convertTo(post, tags, categories, postMetaList,postResourceList);
     }
 
     @Override
