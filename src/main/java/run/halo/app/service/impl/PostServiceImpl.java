@@ -723,6 +723,8 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
         postDetailVO.setMetaIds(metaIds);
         postDetailVO.setMetas(postMetaService.convertTo(postMetaList));
 
+        //Get post resource
+        postDetailVO.setResources(resources);
         postDetailVO.setCommentCount(postCommentService.countByPostId(post.getId()));
 
         postDetailVO.setFullPath(buildFullPath(post));

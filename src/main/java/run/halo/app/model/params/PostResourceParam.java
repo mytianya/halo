@@ -20,4 +20,5 @@ public class PostResourceParam implements InputConverter<PostResource> {
     @NotBlank(message = "资源链接不能为空")
     private String url;
     private String shareCode;
+    private boolean status;
 }
