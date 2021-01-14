@@ -1,9 +1,6 @@
 package run.halo.app.model.entity;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -19,6 +16,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @Entity
 @Table(name="post_resource")
+@EqualsAndHashCode(callSuper = true)
 public class PostResource extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
@@ -39,6 +37,7 @@ public class PostResource extends BaseEntity{
     /**
      * 资源链接
      */
+    @Lob
     @Column(name="url",nullable = false)
     private String url;
     /**
@@ -52,10 +51,14 @@ public class PostResource extends BaseEntity{
      */
     @Column(name="secret_code")
     private String secretCode;
-
+    /***
+     * 资源类型
+     */
+    @Column(name="type")
+    private String type;
     /***
      * 状态
      */
     @Column(name="status")
-    private Integer status;
+    private boolean status;
 }

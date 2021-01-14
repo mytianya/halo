@@ -44,7 +44,7 @@ public class PostResourceServiceImpl extends AbstractCrudService<PostResource,In
             if(StringUtils.isNotEmpty(resource.getUrl())&&StringUtils.isNotEmpty(resource.getName())){
                 resource.setPostId(postId);
                 resource.setSecretCode(NetworkDiskUtil.geneteSceretCode(6));
-                resource.setStatus(NetworkDiskShareType.ABLE.getValue());
+                resource.setStatus(resource.isStatus());
                 postResourceRepository.save(resource);
             }
         });
