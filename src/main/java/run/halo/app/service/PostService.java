@@ -58,7 +58,7 @@ public interface PostService extends BasePostService<Post> {
      * @return post created
      */
     @NonNull
-    PostDetailVO createBy(@NonNull Post post, Set<Integer> tagIds, Set<Integer> categoryIds, Set<PostMeta> metas,Set<PostResource> postResources, boolean autoSave);
+    PostDetailVO createBy(@NonNull Post post, Set<Integer> tagIds, Set<Integer> categoryIds, Set<PostMeta> metas, Set<PostResource> postResources, boolean autoSave);
 
 
     /**
@@ -84,7 +84,7 @@ public interface PostService extends BasePostService<Post> {
      * @return updated post
      */
     @NonNull
-    PostDetailVO updateBy(@NonNull Post postToUpdate, Set<Integer> tagIds, Set<Integer> categoryIds, Set<PostMeta> metas,Set<PostResource> resources, boolean autoSave);
+    PostDetailVO updateBy(@NonNull Post postToUpdate, Set<Integer> tagIds, Set<Integer> categoryIds, Set<PostMeta> metas, Set<PostResource> resources, boolean autoSave);
 
     /**
      * Gets post by post status and slug.

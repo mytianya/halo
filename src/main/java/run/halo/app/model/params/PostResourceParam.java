@@ -15,12 +15,12 @@ import javax.validation.constraints.Size;
 @Data
 public class PostResourceParam implements InputConverter<PostResource> {
     @NotBlank(message = "资源描述不能为空")
-    @Size(max=100,message = "资源描述信息不能超过100")
+    @Size(max = 100, message = "资源描述信息不能超过100")
     private String name;
     @NotBlank(message = "资源链接不能为空")
     private String url;
     private String shareCode;
     @NotBlank(message = "资源类型不能为空")
     private String type;
-    private boolean status=true;
+    private boolean status = true;
 }

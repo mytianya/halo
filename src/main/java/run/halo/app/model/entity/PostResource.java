@@ -15,9 +15,9 @@ import javax.persistence.*;
 @ToString(callSuper = true)
 @RequiredArgsConstructor
 @Entity
-@Table(name="post_resource")
+@Table(name = "post_resource")
 @EqualsAndHashCode(callSuper = true)
-public class PostResource extends BaseEntity{
+public class PostResource extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
     @GenericGenerator(name = "custom-id", strategy = "run.halo.app.model.entity.support.CustomIdGenerator")
@@ -31,34 +31,34 @@ public class PostResource extends BaseEntity{
     /**
      * 资源名称
      */
-    @Column(name="name",nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     /**
      * 资源链接
      */
     @Lob
-    @Column(name="url",nullable = false)
+    @Column(name = "url", nullable = false)
     private String url;
     /**
      * 提取码
      */
-    @Column(name="share_code")
+    @Column(name = "share_code")
     private String shareCode;
 
     /**
      * 加密码
      */
-    @Column(name="secret_code")
+    @Column(name = "secret_code")
     private String secretCode;
     /***
      * 资源类型
      */
-    @Column(name="type")
+    @Column(name = "type")
     private String type;
     /***
      * 状态
      */
-    @Column(name="status")
+    @Column(name = "status")
     private boolean status;
 }

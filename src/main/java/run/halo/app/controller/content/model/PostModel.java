@@ -63,7 +63,7 @@ public class PostModel {
         this.postCategoryService = postCategoryService;
         this.categoryService = categoryService;
         this.postMetaService = postMetaService;
-        this.postResourceService=postResourceService;
+        this.postResourceService = postResourceService;
         this.postTagService = postTagService;
         this.tagService = tagService;
         this.optionService = optionService;
@@ -100,7 +100,7 @@ public class PostModel {
         List<Category> categories = postCategoryService.listCategoriesBy(post.getId());
         List<Tag> tags = postTagService.listTagsBy(post.getId());
         List<PostMeta> metas = postMetaService.listBy(post.getId());
-        List<PostResource> resources=postResourceService.listBy(post.getId());
+        List<PostResource> resources = postResourceService.listBy(post.getId());
         // Generate meta keywords.
         if (StringUtils.isNotEmpty(post.getMetaKeywords())) {
             model.addAttribute("meta_keywords", post.getMetaKeywords());
@@ -120,7 +120,7 @@ public class PostModel {
         model.addAttribute("categories", categoryService.convertTo(categories));
         model.addAttribute("tags", tagService.convertTo(tags));
         model.addAttribute("metas", postMetaService.convertToMap(metas));
-        model.addAttribute("resources",resources);
+        model.addAttribute("resources", resources);
         if (themeService.templateExists(
                 ThemeService.CUSTOM_POST_PREFIX + post.getTemplate() + HaloConst.SUFFIX_FTL)) {
             return themeService.render(ThemeService.CUSTOM_POST_PREFIX + post.getTemplate());

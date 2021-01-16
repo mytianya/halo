@@ -113,13 +113,13 @@ public class PostParam implements InputConverter<Post> {
         }
         return postMetaSet;
     }
-    public Set<PostResource> getPostResources(){
-        Set<PostResource> postResourceSet=new HashSet<>();
-        if(CollectionUtils.isEmpty(resources)){
+    public Set<PostResource> getPostResources() {
+        Set<PostResource> postResourceSet = new HashSet<>();
+        if (CollectionUtils.isEmpty(resources)) {
             return postResourceSet;
         }
-        for(PostResourceParam postResourceParam:resources){
-            PostResource postResource=postResourceParam.convertTo();
+        for (PostResourceParam postResourceParam:resources) {
+            PostResource postResource = postResourceParam.convertTo();
             postResourceSet.add(postResource);
         }
         return postResourceSet;

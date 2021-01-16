@@ -12,7 +12,7 @@ import java.util.Set;
  * @createtime 2020/12/30--16:17
  * @description
  **/
-public interface PostResourceService extends CrudService<PostResource,Integer> {
+public interface PostResourceService extends CrudService<PostResource, Integer> {
     List<PostResource> createOrUpdateByPostId(@NonNull Integer postId, Set<PostResource> resources);
     List<PostResource> removeByPostId(@NonNull Integer postId);
     @NonNull

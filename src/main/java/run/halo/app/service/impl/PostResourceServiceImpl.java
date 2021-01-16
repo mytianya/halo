@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import run.halo.app.model.entity.PostResource;
-import run.halo.app.model.enums.NetworkDiskShareType;
 import run.halo.app.repository.PostResourceRepository;
 import run.halo.app.service.PostResourceService;
 import run.halo.app.service.base.AbstractCrudService;
@@ -23,11 +22,11 @@ import java.util.Set;
  * @description
  **/
 @Service
-public class PostResourceServiceImpl extends AbstractCrudService<PostResource,Integer> implements PostResourceService {
+public class PostResourceServiceImpl extends AbstractCrudService<PostResource, Integer> implements PostResourceService {
     private final PostResourceRepository postResourceRepository;
     protected PostResourceServiceImpl(PostResourceRepository postResourceRepository) {
         super(postResourceRepository);
-        this.postResourceRepository=postResourceRepository;
+        this.postResourceRepository = postResourceRepository;
     }
 
     @Override
@@ -36,12 +35,12 @@ public class PostResourceServiceImpl extends AbstractCrudService<PostResource,In
         Assert.notNull(postId, "Post id must not be null");
         //firstly remove post resource by post id
         removeByPostId(postId);
-        if(CollectionUtils.isEmpty(resources)){
+        if (CollectionUtils.isEmpty(resources)) {
             return Collections.emptyList();
         }
         //save post resource
-        resources.forEach(resource->{
-            if(StringUtils.isNotEmpty(resource.getUrl())&&StringUtils.isNotEmpty(resource.getName())){
+        resources.forEach(resource -> {
+            if (StringUtils.isNotEmpty(resource.getUrl()) && StringUtils.isNotEmpty(resource.getName())) {
                 resource.setPostId(postId);
                 resource.setSecretCode(NetworkDiskUtil.geneteSceretCode(6));
                 resource.setStatus(resource.isStatus());

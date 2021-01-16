@@ -11,7 +11,7 @@ import java.util.List;
  * @createtime 2020/12/30--16:14
  * @description
  **/
-public interface PostResourceRepository  extends BaseRepository<PostResource,Integer> {
+public interface PostResourceRepository  extends BaseRepository<PostResource, Integer> {
     @NonNull
     List<PostResource> findAllByPostId(@NonNull Integer postId);
 
