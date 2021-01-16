@@ -6,6 +6,7 @@ import org.springframework.util.CollectionUtils;
 import run.halo.app.model.dto.base.InputConverter;
 import run.halo.app.model.entity.Post;
 import run.halo.app.model.entity.PostMeta;
+import run.halo.app.model.entity.PostResource;
 import run.halo.app.model.enums.PostEditorType;
 import run.halo.app.model.enums.PostStatus;
 import run.halo.app.utils.SlugUtils;
@@ -69,6 +70,7 @@ public class PostParam implements InputConverter<Post> {
 
     private Set<PostMetaParam> metas;
 
+    private Set<PostResourceParam> resources;
     @Override
     public Post convertTo() {
         slug = StringUtils.isBlank(slug) ? SlugUtils.slug(title) : SlugUtils.slug(slug);
@@ -110,5 +112,16 @@ public class PostParam implements InputConverter<Post> {
             postMetaSet.add(postMeta);
         }
         return postMetaSet;
+    }
+    public Set<PostResource> getPostResources() {
+        Set<PostResource> postResourceSet = new HashSet<>();
+        if (CollectionUtils.isEmpty(resources)) {
+            return postResourceSet;
+        }
+        for (PostResourceParam postResourceParam:resources) {
+            PostResource postResource = postResourceParam.convertTo();
+            postResourceSet.add(postResource);
+        }
+        return postResourceSet;
     }
 }

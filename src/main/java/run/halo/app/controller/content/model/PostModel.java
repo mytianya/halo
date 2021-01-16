@@ -9,10 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import run.halo.app.cache.AbstractStringCacheStore;
 import run.halo.app.exception.ForbiddenException;
-import run.halo.app.model.entity.Category;
-import run.halo.app.model.entity.Post;
-import run.halo.app.model.entity.PostMeta;
-import run.halo.app.model.entity.Tag;
+import run.halo.app.model.entity.*;
 import run.halo.app.model.enums.PostEditorType;
 import run.halo.app.model.enums.PostStatus;
 import run.halo.app.model.support.HaloConst;
@@ -46,7 +43,7 @@ public class PostModel {
     private final TagService tagService;
 
     private final PostMetaService postMetaService;
-
+    private final PostResourceService postResourceService;
     private final OptionService optionService;
 
     private final AbstractStringCacheStore cacheStore;
@@ -56,6 +53,7 @@ public class PostModel {
             PostCategoryService postCategoryService,
             CategoryService categoryService,
             PostMetaService postMetaService,
+            PostResourceService postResourceService,
             PostTagService postTagService,
             TagService tagService,
             OptionService optionService,
@@ -65,6 +63,7 @@ public class PostModel {
         this.postCategoryService = postCategoryService;
         this.categoryService = categoryService;
         this.postMetaService = postMetaService;
+        this.postResourceService = postResourceService;
         this.postTagService = postTagService;
         this.tagService = tagService;
         this.optionService = optionService;
@@ -101,7 +100,7 @@ public class PostModel {
         List<Category> categories = postCategoryService.listCategoriesBy(post.getId());
         List<Tag> tags = postTagService.listTagsBy(post.getId());
         List<PostMeta> metas = postMetaService.listBy(post.getId());
-
+        List<PostResource> resources = postResourceService.listBy(post.getId());
         // Generate meta keywords.
         if (StringUtils.isNotEmpty(post.getMetaKeywords())) {
             model.addAttribute("meta_keywords", post.getMetaKeywords());
@@ -121,7 +120,6 @@ public class PostModel {
         model.addAttribute("categories", categoryService.convertTo(categories));
         model.addAttribute("tags", tagService.convertTo(tags));
         model.addAttribute("metas", postMetaService.convertToMap(metas));
-
         if (themeService.templateExists(
                 ThemeService.CUSTOM_POST_PREFIX + post.getTemplate() + HaloConst.SUFFIX_FTL)) {
             return themeService.render(ThemeService.CUSTOM_POST_PREFIX + post.getTemplate());

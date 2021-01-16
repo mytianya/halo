@@ -12,59 +12,19 @@
 
 ------------------------------
 
-## 简介
+# Halo扩展文章资源管理功能
 
-**Halo** `[ˈheɪloʊ]`，意为光环。当然，你也可以当成拼音读(哈喽)。
+> 在Halo当前1.4.2版本上面，扩展管理文章的附件资源地址功能
 
-一个优秀的开源博客发布应用，值得一试。
+- 支持资源可见不可见开关
+- 支持不同类型资源显示
 
-> [官网 & 文档](https://halo.run) | [社区](https://bbs.halo.run) | [Telegram 频道](https://t.me/halo_dev)
+## 后台文章编辑页面示例
 
-## 快速开始
+![image-20210116110530728.png](https://i.loli.net/2021/01/16/Ef2YhqGkAuBWt45.png)
 
-### 下载最新的 Halo 安装包
+## 前端显示示例
 
-> 其他地址：https://halo.run/archives/download.html
+在官方的post变量上，新增resources属性，当前在本人已fork的[halo-theme-xue](https://github.com/mytianya/halo-theme-xue)主题中已添加。
 
-```bash
-curl -L https://github.com/halo-dev/halo/releases/download/v1.4.2/halo-1.4.2.jar --output halo-latest.jar
-```
-
-或者
-
-```bash
-wget https://github.com/halo-dev/halo/releases/download/v1.4.2/halo-1.4.2.jar -O halo-latest.jar
-```
-
-### 启动 Halo
-
-```bash
-java -jar halo-latest.jar
-```
-
-详细部署文档请移步：<https://halo.run/archives/install-quick-start.html>
-
-## 周边
-
-- 后台管理（halo-admin）：<https://github.com/halo-dev/halo-admin>
-- 独立评论模块（halo-comment）：<https://github.com/halo-dev/halo-comment>
-- 管理 APP（已停止维护）：<https://github.com/halo-dev/halo-app>
-- 主题仓库：<https://halo.run/p/themes.html>
-- 资源下载：<https://dl.halo.run>
-- WeHalo 小程序：<https://github.com/aquanlerou/WeHalo>
-
-## 许可证
-
-[![license](https://img.shields.io/github/license/halo-dev/halo.svg?style=flat-square)](https://github.com/halo-dev/halo/blob/master/LICENSE)
-
-> Halo 使用 GPL-v3.0 协议开源，请尽量遵守开源协议。
-
-## 贡献
-参考 [CONTRIBUTING](./CONTRIBUTING.md)。
-
-## 捐赠
-
-> 如果 Halo 对你有帮助，可以请开发团队们喝杯☕️。
-
-- 一次性赞助：<https://sponsor.halo.run>
-- 周期性赞助：<https://afdian.net/@halo-dev>
+![image-20210116110632869.png](https://i.loli.net/2021/01/16/Njr6JmZQRzk15nd.png)

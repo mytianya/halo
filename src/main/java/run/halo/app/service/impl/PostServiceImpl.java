@@ -79,6 +79,8 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
 
     private final OptionService optionService;
 
+    private final PostResourceService postResourceService;
+
     public PostServiceImpl(BasePostRepository<Post> basePostRepository,
             OptionService optionService,
             PostRepository postRepository,
@@ -88,7 +90,7 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
             PostCategoryService postCategoryService,
             PostCommentService postCommentService,
             ApplicationEventPublisher eventPublisher,
-            PostMetaService postMetaService) {
+            PostMetaService postMetaService, PostResourceService postResourceService) {
         super(basePostRepository, optionService);
         this.postRepository = postRepository;
         this.tagService = tagService;
@@ -99,6 +101,7 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
         this.eventPublisher = eventPublisher;
         this.postMetaService = postMetaService;
         this.optionService = optionService;
+        this.postResourceService = postResourceService;
     }
 
     @Override
@@ -126,8 +129,8 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
     @Override
     @Transactional
     public PostDetailVO createBy(Post postToCreate, Set<Integer> tagIds, Set<Integer> categoryIds,
-            Set<PostMeta> metas, boolean autoSave) {
-        PostDetailVO createdPost = createOrUpdate(postToCreate, tagIds, categoryIds, metas);
+            Set<PostMeta> metas, Set<PostResource> resources, boolean autoSave) {
+        PostDetailVO createdPost = createOrUpdate(postToCreate, tagIds, categoryIds, metas, resources);
         if (!autoSave) {
             // Log the creation
             LogEvent logEvent = new LogEvent(this, createdPost.getId().toString(),
@@ -137,10 +140,11 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
         return createdPost;
     }
 
+
     @Override
     public PostDetailVO createBy(Post postToCreate, Set<Integer> tagIds, Set<Integer> categoryIds,
             boolean autoSave) {
-        PostDetailVO createdPost = createOrUpdate(postToCreate, tagIds, categoryIds, null);
+        PostDetailVO createdPost = createOrUpdate(postToCreate, tagIds, categoryIds, null, null);
         if (!autoSave) {
             // Log the creation
             LogEvent logEvent = new LogEvent(this, createdPost.getId().toString(),
@@ -153,10 +157,10 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
     @Override
     @Transactional
     public PostDetailVO updateBy(Post postToUpdate, Set<Integer> tagIds, Set<Integer> categoryIds,
-            Set<PostMeta> metas, boolean autoSave) {
+            Set<PostMeta> metas, Set<PostResource> resources, boolean autoSave) {
         // Set edit time
         postToUpdate.setEditTime(DateUtils.now());
-        PostDetailVO updatedPost = createOrUpdate(postToUpdate, tagIds, categoryIds, metas);
+        PostDetailVO updatedPost = createOrUpdate(postToUpdate, tagIds, categoryIds, metas, resources);
         if (!autoSave) {
             // Log the creation
             LogEvent logEvent = new LogEvent(this, updatedPost.getId().toString(),
@@ -480,8 +484,11 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
         List<Category> categories = postCategoryService.listCategoriesBy(post.getId());
         // List metas
         List<PostMeta> metas = postMetaService.listBy(post.getId());
+
+        //List Resource
+        List<PostResource> resources = postResourceService.listBy(post.getId());
         // Convert to detail vo
-        return convertTo(post, tags, categories, metas);
+        return convertTo(post, tags, categories, metas, resources);
     }
 
     @Override
@@ -689,7 +696,7 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
      */
     @NonNull
     private PostDetailVO convertTo(@NonNull Post post, @Nullable List<Tag> tags,
-            @Nullable List<Category> categories, List<PostMeta> postMetaList) {
+            @Nullable List<Category> categories, List<PostMeta> postMetaList, List<PostResource> resources) {
         Assert.notNull(post, "Post must not be null");
 
         // Convert to base detail vo
@@ -716,6 +723,8 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
         postDetailVO.setMetaIds(metaIds);
         postDetailVO.setMetas(postMetaService.convertTo(postMetaList));
 
+        //Get post resource
+        postDetailVO.setResources(resources);
         postDetailVO.setCommentCount(postCommentService.countByPostId(post.getId()));
 
         postDetailVO.setFullPath(buildFullPath(post));
@@ -768,7 +777,7 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
     }
 
     private PostDetailVO createOrUpdate(@NonNull Post post, Set<Integer> tagIds,
-            Set<Integer> categoryIds, Set<PostMeta> metas) {
+            Set<Integer> categoryIds, Set<PostMeta> metas, Set<PostResource> resources) {
         Assert.notNull(post, "Post param must not be null");
 
         // Create or update post
@@ -801,8 +810,10 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
                 .createOrUpdateByPostId(post.getId(), metas);
         log.debug("Created post metas: [{}]", postMetaList);
 
+        //Create post resources
+        List<PostResource> postResourceList = postResourceService.createOrUpdateByPostId(post.getId(), resources);
         // Convert to post detail vo
-        return convertTo(post, tags, categories, postMetaList);
+        return convertTo(post, tags, categories, postMetaList, postResourceList);
     }
 
     @Override

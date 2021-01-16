@@ -7,6 +7,7 @@ import run.halo.app.model.dto.BaseMetaDTO;
 import run.halo.app.model.dto.CategoryDTO;
 import run.halo.app.model.dto.TagDTO;
 import run.halo.app.model.dto.post.BasePostDetailDTO;
+import run.halo.app.model.entity.PostResource;
 
 import java.util.List;
 import java.util.Set;
@@ -34,5 +35,7 @@ public class PostDetailVO extends BasePostDetailDTO {
     private Set<Long> metaIds;
 
     private List<BaseMetaDTO> metas;
+
+    private List<PostResource> resources;
 }
 
