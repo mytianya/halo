@@ -120,7 +120,6 @@ public class PostModel {
         model.addAttribute("categories", categoryService.convertTo(categories));
         model.addAttribute("tags", tagService.convertTo(tags));
         model.addAttribute("metas", postMetaService.convertToMap(metas));
-        model.addAttribute("resources", resources);
         if (themeService.templateExists(
                 ThemeService.CUSTOM_POST_PREFIX + post.getTemplate() + HaloConst.SUFFIX_FTL)) {
             return themeService.render(ThemeService.CUSTOM_POST_PREFIX + post.getTemplate());
